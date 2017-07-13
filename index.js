@@ -31,7 +31,6 @@ module.exports = robot => {
                 // Check to make sure it's not whitelisted (ie bug or chore)
                 if (!whiteList) {
                     const template = config.updateDocsComment;
-                    robot.log(template);
                     return context.github.issues.createComment(context.issue({body: template}));
                 }
             }

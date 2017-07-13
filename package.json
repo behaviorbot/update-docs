@@ -26,5 +26,8 @@
   },
   "dependencies": {
     "js-yaml": "^3.9.0"
+  },
+  "xo": {
+    "space": 4
   }
 }

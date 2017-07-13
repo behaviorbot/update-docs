@@ -1,9 +1,7 @@
 const expect = require('expect');
-const yaml = require('js-yaml');
 const {createRobot} = require('probot');
 const plugin = require('..');
-const successEvent = require('./events/successEvent');
-//const failEvent = require('./events/failEvent');
+const payload = require('./events/payload');
 
 describe('update-docs', () => {
     let robot;
@@ -26,7 +24,7 @@ describe('update-docs', () => {
             },
             pullRequests: {
                 getFiles: expect.createSpy().andReturn(Promise.resolve({
-                    data: [ {"filename": "help.yml"}, {"filename": "index.js"} ]
+                    data: [{filename: 'help.yml'}, {filename: 'index.js'}]
                 }))
             }
         };
@@ -35,7 +33,7 @@ describe('update-docs', () => {
 
     describe('update docs success', () => {
         it('posts a comment because the user did NOT update the docs', async () => {
-            await robot.receive(successEvent);
+            await robot.receive(payload);
 
             expect(github.pullRequests.getFiles).toHaveBeenCalledWith({
                 owner: 'hiimbex',
@@ -51,26 +49,23 @@ describe('update-docs', () => {
         });
     });
 
-    // describe('update docs fail fail', () => {
-    //     beforeEach(() => {
-    //         github.repos.getContent = expect.createSpy().andReturn(Promise.resolve({
-    //             data: {
-    //                 content: Buffer.from(` `).toString('base64')
-    //             }
-    //         }));
-    //     });
-    // 
-    //     it('does not post a comment because the user did update documentation', async () => {
-    //         await robot.receive(failEvent);
-    // 
-    //         expect(github.repos.getContent).toHaveBeenCalledWith({
-    //             owner: 'hiimbex',
-    //             repo: 'testing-things',
-    //             path: '.github/request-info.yml'
-    //         });
-    // 
-    //         expect(github.issues.createComment).toNotHaveBeenCalled();
-    //         expect(github.issues.addLabels).toNotHaveBeenCalled();
-    //     });
-    // });
+    describe('update docs fail', () => {
+        beforeEach(() => {
+            github.pullRequests.getFiles = expect.createSpy().andReturn(Promise.resolve({
+                data: [{filename: '/lib/main.js'}, {filename: '/docs/main.md'}]
+            }));
+        });
+
+        it('does not post a comment because the user DID update documentation', async () => {
+            await robot.receive(payload);
+
+            expect(github.pullRequests.getFiles).toHaveBeenCalledWith({
+                owner: 'hiimbex',
+                repo: 'testing-things',
+                number: 21
+            });
+            expect(github.repos.getContent).toNotHaveBeenCalled();
+            expect(github.issues.createComment).toNotHaveBeenCalled();
+        });
+    });
 });

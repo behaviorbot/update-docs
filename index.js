@@ -2,12 +2,8 @@ const yaml = require('js-yaml');
 
 module.exports = robot => {
     robot.on('pull_request.opened', async context => {
-        const owner = context.payload.repository.owner.login;
-        const repo = context.payload.repository.name;
-        const number = context.payload.pull_request.number;
         let config;
-
-        const files = await context.github.pullRequests.getFiles({ owner, repo, number });
+        const files = await context.github.pullRequests.getFiles(context.issue());
         const docs = files.data.find(function (file) {
             if (file.filename === 'README.md' || file.filename.includes('docs/')) {
                 return file;
@@ -25,9 +21,12 @@ module.exports = robot => {
             }
             if (config) {
                 const title = context.payload.pull_request.title;
-                const whiteList = config.whiteList.find(function (item) {
-                    if (title.includes(item)) return item;
-                });
+                let whiteList;
+                if (config.whiteList) {
+                    whiteList = config.whiteList.find(function (item) {
+                        if (title.includes(item)) return item;
+                    });
+                }
                 // Check to make sure it's not whitelisted (ie bug or chore)
                 if (!whiteList) {
                     const template = config.updateDocsComment;

@@ -18,7 +18,7 @@
 updatesDocsComment: >
   Thanks for opening this pull request! The maintainers of this repository would appreciate it if you would update some of our documentation based on your changes.
 
-whiteList:
+updateDocsWhiteList:
   - bug
   - chore
 ```

@@ -22,8 +22,8 @@ module.exports = robot => {
             if (config) {
                 const title = context.payload.pull_request.title;
                 let whiteList;
-                if (config.whiteList) {
-                    whiteList = config.whiteList.find(function (item) {
+                if (config.updateDocsWhiteList) {
+                    whiteList = config.updateDocsWhiteList.find(function (item) {
                         if (title.toLowerCase().includes(item.toLowerCase())) return item;
                     });
                 }

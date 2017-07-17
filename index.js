@@ -5,7 +5,7 @@ module.exports = robot => {
         let config;
         const files = await context.github.pullRequests.getFiles(context.issue());
         const docs = files.data.find(function (file) {
-            if (file.filename === 'README.md' || file.filename.includes('docs/')) {
+            if (file.filename.startsWith('README') || file.filename.includes('docs/')) {
                 return file;
             }
         });
@@ -24,7 +24,7 @@ module.exports = robot => {
                 let whiteList;
                 if (config.whiteList) {
                     whiteList = config.whiteList.find(function (item) {
-                        if (title.includes(item)) return item;
+                        if (title.toLowerCase().includes(item.toLowerCase())) return item;
                     });
                 }
                 // Check to make sure it's not whitelisted (ie bug or chore)

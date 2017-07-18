@@ -1,6 +1,6 @@
 # update-docs
 
-> a GitHub App built with [probot](https://github.com/probot/probot) that comments on newly opened Pull Requests that do not update either the README or a files in the `/docs` folder. 
+> a GitHub App built with [probot](https://github.com/probot/probot) that comments on newly opened Pull Requests that do not update either the README or a file in the `/docs` folder. 
 
 <img width="810" alt="screen shot 2017-07-12 at 2 59 22 pm" src="https://user-images.githubusercontent.com/13410355/28179044-97207bee-67b5-11e7-80d0-0c8ede4a325f.png">
 

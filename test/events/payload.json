@@ -1,0 +1,22 @@
+{
+    "event": "pull_request",
+    "payload": {
+        "action": "opened",
+        "pull_request": {
+            "number": 21,
+            "user": {
+                "login": "hiimbex"
+            },
+            "title": "This is a pr"
+        },
+        "repository": {
+            "name": "testing-things",
+            "owner": {
+                "login": "hiimbex"
+            }
+        },
+        "installation": {
+            "id": 35029
+        }
+    }
+}

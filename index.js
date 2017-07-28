@@ -1,3 +1,5 @@
+/* eslint array-callback-return: 0 */
+/* eslint prefer-arrow-callback: 0 */
 const yaml = require('js-yaml');
 
 module.exports = robot => {
@@ -17,14 +19,18 @@ module.exports = robot => {
                 const response = await context.github.repos.getContent(options);
                 config = yaml.safeLoad(Buffer.from(response.data.content, 'base64').toString()) || {};
             } catch (err) {
-                if (err.code !== 404) throw err;
+                if (err.code !== 404) {
+                    throw err;
+                }
             }
             if (config) {
                 const title = context.payload.pull_request.title;
                 let whiteList;
                 if (config.updateDocsWhiteList) {
                     whiteList = config.updateDocsWhiteList.find(function (item) {
-                        if (title.toLowerCase().includes(item.toLowerCase())) return item;
+                        if (title.toLowerCase().includes(item.toLowerCase())) {
+                            return item;
+                        }
                     });
                 }
                 // Check to make sure it's not whitelisted (ie bug or chore)

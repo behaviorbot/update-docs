@@ -15,7 +15,7 @@
 # Configuration for update-docs - https://github.com/behaviorbot/update-docs
 
 # Comment to be posted to on PRs that don't update documentation
-updatesDocsComment: >
+updateDocsComment: >
   Thanks for opening this pull request! The maintainers of this repository would appreciate it if you would update some of our documentation based on your changes.
 
 updateDocsWhiteList:

@@ -1,16 +1,27 @@
 module.exports = robot => {
   robot.on('pull_request.opened', async context => {
     const files = await context.github.pullRequests.getFiles(context.issue())
+    const config = await context.config('config.yml')
     const docs = files.data.find(function (file) {
-      if (file.filename.startsWith('README') || file.filename.includes('docs/')) {
-        return file
+      let targetFile
+
+      if (config.updateDocsTargetFiles) {
+        targetFile = config.updateDocsTargetFiles.find(function (item) {
+          if (file.filename.startsWith(item) || file.filename.includes(item)) {
+            return item
+          }
+        })
+        return targetFile
+      } else {
+        if (file.filename.startsWith('README') || file.filename.includes('docs/')) {
+          return file
+        }
       }
     })
 
     if (!docs) {
       // Get config.yml and comment that on the PR
       try {
-        const config = await context.config('config.yml')
         const title = context.payload.pull_request.title
         let whiteList
         if (config.updateDocsWhiteList) {

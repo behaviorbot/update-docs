@@ -11,6 +11,7 @@
   - [x] check the box for **Pull Request** events
 2. Add a `.github/config.yml` file that contains the contents you would like to reply within an `updateDocsComment`
 3. Optionally, you can also add a `whiteList` that includes terms, that if found in the title, the bot will not comment on.
+4. Optionally, you can also add `targetFiles` that includes the files or paths to consider documentation.
 ```yml
 # Configuration for update-docs - https://github.com/behaviorbot/update-docs
 
@@ -21,6 +22,10 @@ updateDocsComment: >
 updateDocsWhiteList:
   - bug
   - chore
+
+updateDocsTargetFiles:
+  - README
+  - docs/
 ```
 
 ## Setup

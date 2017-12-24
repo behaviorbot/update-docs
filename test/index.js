@@ -52,7 +52,7 @@ describe('update-docs', () => {
   describe('update docs fail', () => {
     beforeEach(() => {
       github.pullRequests.getFiles = expect.createSpy().andReturn(Promise.resolve({
-        data: [{filename: '/lib/main.js'}, {filename: '/docs/main.md'}]
+        data: [{filename: 'lib/main.js'}, {filename: 'docs/main.md'}]
       }))
     })
 
@@ -72,7 +72,7 @@ describe('update-docs', () => {
   describe('update docs fail', () => {
     beforeEach(() => {
       github.pullRequests.getFiles = expect.createSpy().andReturn(Promise.resolve({
-        data: [{filename: '/lib/main.js'}, {filename: '/README.md'}]
+        data: [{filename: 'lib/main.js'}, {filename: 'README.md'}]
       }))
     })
 

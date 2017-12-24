@@ -56,7 +56,27 @@ describe('update-docs', () => {
       }))
     })
 
-    it('does not post a comment because the user DID update documentation', async () => {
+    it('does not post a comment because the user DID update documentation in /docs', async () => {
+      await robot.receive(payload)
+
+      expect(github.pullRequests.getFiles).toHaveBeenCalledWith({
+        owner: 'hiimbex',
+        repo: 'testing-things',
+        number: 21
+      })
+      expect(github.repos.getContent).toNotHaveBeenCalled()
+      expect(github.issues.createComment).toNotHaveBeenCalled()
+    })
+  })
+
+  describe('update docs fail', () => {
+    beforeEach(() => {
+      github.pullRequests.getFiles = expect.createSpy().andReturn(Promise.resolve({
+        data: [{filename: '/lib/main.js'}, {filename: '/README.md'}]
+      }))
+    })
+
+    it('does not post a comment because the user DID update README.md', async () => {
       await robot.receive(payload)
 
       expect(github.pullRequests.getFiles).toHaveBeenCalledWith({

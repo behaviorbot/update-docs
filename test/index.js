@@ -64,7 +64,6 @@ describe('update-docs', () => {
         repo: 'testing-things',
         number: 21
       })
-      expect(github.repos.getContent).toNotHaveBeenCalled()
       expect(github.issues.createComment).toNotHaveBeenCalled()
     })
   })

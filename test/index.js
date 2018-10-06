@@ -1,5 +1,5 @@
 const expect = require('expect')
-const {createRobot} = require('probot')
+const {Application} = require('probot')
 const plugin = require('..')
 const payload = require('./events/payload')
 
@@ -8,7 +8,7 @@ describe('update-docs', () => {
   let github
 
   beforeEach(() => {
-    robot = createRobot()
+    robot = new Application()
     plugin(robot)
 
     github = {
@@ -64,7 +64,6 @@ describe('update-docs', () => {
         repo: 'testing-things',
         number: 21
       })
-      expect(github.repos.getContent).toNotHaveBeenCalled()
       expect(github.issues.createComment).toNotHaveBeenCalled()
     })
   })

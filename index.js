@@ -1,5 +1,5 @@
-module.exports = robot => {
-  robot.on('pull_request.opened', async context => {
+module.exports = app => {
+  app.on('pull_request.opened', async context => {
     const files = await context.github.pullRequests.getFiles(context.issue())
     const config = await context.config('config.yml')
     const docs = files.data.find(function (file) {

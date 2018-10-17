@@ -1,15 +1,15 @@
 const expect = require('expect')
-const {createRobot} = require('probot')
+const {Application} = require('probot')
 const plugin = require('..')
 const payload = require('./events/payload')
 
 describe('update-docs', () => {
-  let robot
+  let app
   let github
 
   beforeEach(() => {
-    robot = createRobot()
-    plugin(robot)
+    app = new Application()
+    plugin(app)
 
     github = {
       repos: {
@@ -28,12 +28,12 @@ describe('update-docs', () => {
         }))
       }
     }
-    robot.auth = () => Promise.resolve(github)
+    app.auth = () => Promise.resolve(github)
   })
 
   describe('update docs success', () => {
     it('posts a comment because the user did NOT update the docs', async () => {
-      await robot.receive(payload)
+      await app.receive(payload)
 
       expect(github.pullRequests.getFiles).toHaveBeenCalledWith({
         owner: 'hiimbex',
@@ -57,14 +57,13 @@ describe('update-docs', () => {
     })
 
     it('does not post a comment because the user DID update documentation in /docs', async () => {
-      await robot.receive(payload)
+      await app.receive(payload)
 
       expect(github.pullRequests.getFiles).toHaveBeenCalledWith({
         owner: 'hiimbex',
         repo: 'testing-things',
         number: 21
       })
-      expect(github.repos.getContent).toNotHaveBeenCalled()
       expect(github.issues.createComment).toNotHaveBeenCalled()
     })
   })
@@ -77,7 +76,7 @@ describe('update-docs', () => {
     })
 
     it('does not post a comment because the user DID update README.md', async () => {
-      await robot.receive(payload)
+      await app.receive(payload)
 
       expect(github.pullRequests.getFiles).toHaveBeenCalledWith({
         owner: 'hiimbex',
